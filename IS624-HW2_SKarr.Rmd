@@ -1,0 +1,62 @@
+---
+title: "Data Pre-processing exercises - IS624 HW2"
+output:
+  html_document: 
+    css: ~/IS624Fall2019/HW3/more/lab.css
+    highlight: pygments
+    theme: cerulean
+  pdf_document: default
+  word_document: default
+---
+#####Chapter 6 HA 6.2
+
+```{r, load-packages, eval=TRUE, include=FALSE}
+library(fpp2)
+library(seasonal)
+data(plastics)
+```
+6.2 The plastics data set consists of the monthly sales (in thousands) of product A for a plastics manufacturer for five years.
+# plastics Monthly sales of product A for a plastics manufacturer.
+
+a. Plot the time series of sales of product A. Can you identify seasonal fluctuations and/or a trend-cycle? 
+There is a seasonal summer peak and winter trough.  The trend is upward in on a linear path.
+```{r, eval_plasticsa, eval=TRUE, include=TRUE}
+autoplot(plastics) + xlab("Year") + ylab("Sales (in thousands of product A") +
+  ggtitle("5-yr monthly sales (in thousands) of product A")
+```
+
+b. Use a classical multiplicative decomposition to calculate the trend-cycle and seasonal indices.
+```{r, eval_plasticsb, eval=TRUE, include=TRUE}
+plastics %>% decompose(type="multiplicative") %>%
+  autoplot() + xlab("Year") +
+  ggtitle("Classical multiplicative decomposition of plastic sales (in thousands of product A)")
+```
+
+c. Do the results support the graphical interpretation from part a?
+ Yes.
+
+d. Compute and plot the seasonally adjusted data.
+```{r, eval_plasticsd, eval=TRUE, include=TRUE}
+plastics %>%
+  stl(t.window=13, s.window="periodic", robust=TRUE) %>%
+  autoplot()
+```
+
+e. Change one observation to be an outlier (e.g., add 500 to one observation), and recompute the seasonally adjusted data. What is    the effect of the outlier?
+It accentuates the seasonal data but doesn't impact the trend.
+```{r, eval_plasticse, eval=TRUE, include=TRUE}
+plastics[50]<-500
+plastics %>%
+  stl(t.window=13, s.window="periodic", robust=TRUE) %>%
+  autoplot()
+```
+
+f. Does it make any difference if the outlier is near the end rather than in the middle of the time series?
+It appears not to.  Again, only the seasonal data appears to be impacted at the time of the outlier occurance.
+```{r, eval_plasticsf, eval=TRUE, include=TRUE}
+plastics[10]<-500
+plastics %>%
+  stl(t.window=13, s.window="periodic", robust=TRUE) %>%
+  autoplot()
+```
+
