@@ -1,0 +1,26 @@
+---
+title: "Data Pre-processing exercises - IS624 HW2"
+output:
+  html_document:
+    css: ./lab.css
+    highlight: pygments
+    theme: cerulean
+  pdf_document: default
+  word_document: default
+---
+#####Chapter 6 HA 6.2
+
+6.2.
+
+
+
+```{r include=FALSE}
+library(mlbench)
+library(psych)
+library(pander)
+library(caret)
+library(PerformanceAnalytics)
+library(purrr)
+library(tidyr)
+library(ggplot2)
+```
